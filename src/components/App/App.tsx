@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import css from "./App.module.css";
-import Cafeinfo from "../CafeInfo/CafeInfo";
+import CafeInfo from "../CafeInfo/CafeInfo";
 import VoteOptions from "../VoteOptions/VoteOptions";
 import Notification from "../Notification/Notification";
 import VoteStats from "../VoteStats/VoteStats";
@@ -28,18 +28,31 @@ export default function App() {
       bad: 0,
     });
   };
-const totalVotes =({good,neutral, bad}:Votes)=> {
-    return good+neutral+bad
-}
-const positiveRate = totalVotes(votes)
+
+  const totalVotes = ({ good, neutral, bad }: Votes) => {
+    return good + neutral + bad;
+  };
+
+  const positiveRate = totalVotes(votes)
     ? Math.round((votes.good / totalVotes(votes)) * 100)
-    : 0
+    : 0;
   return (
     <div className={css.app}>
-      <Cafeinfo />
-      <VoteOptions onVote={handleVote} onReset={resetVotes} canReset={totalVotes(votes)} />
-      { totalVotes(votes)>0 ? <VoteStats votes={votes} totalVotes={totalVotes(votes)} positiveRate={positiveRate}/>: < Notification/>}
-     
+      <CafeInfo />
+      <VoteOptions
+        onVote={handleVote}
+        onReset={resetVotes}
+        canReset={totalVotes(votes) > 0}
+      />
+      {totalVotes(votes) > 0 ? (
+        <VoteStats
+          votes={votes}
+          totalVotes={totalVotes(votes)}
+          positiveRate={positiveRate}
+        />
+      ) : (
+        <Notification />
+      )}
     </div>
   );
 }
